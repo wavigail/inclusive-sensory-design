@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f8f6">
+  <meta name="description" content="מחקר עיצובי על פתרונות למצבים שבהם חוש אינו זמין: עיצוב מכליל, עיצוב אוניברסלי והחלפה בין ערוצי חישה.">
+  <title>חוש חסר | מחקר בעיצוב מכליל</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172b2b;
+      --muted: #607373;
+      --paper: #f4f8f6;
+      --white: #fff;
+      --line: #d8e3df;
+      --teal: #087e78;
+      --teal-light: #d8f0e9;
+      --coral: #ed654e;
+      --coral-light: #ffebe4;
+      --blue: #4778ba;
+      --blue-light: #e5effb;
+      --yellow: #e8b934;
+      --yellow-light: #fff4ce;
+      --radius: 7px;
+      --page: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Heebo", sans-serif;
+      line-height: 1.65;
+    }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline: 3px solid var(--coral);
+      outline-offset: 3px;
+    }
+    .wrap { width: min(var(--page), calc(100% - 48px)); margin-inline: auto; }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 68px;
+      border-bottom: 1px solid var(--line);
+    }
+    .wordmark { display: flex; gap: 10px; align-items: center; font-weight: 800; text-decoration: none; }
+    .mark {
+      display: inline-grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--teal);
+      color: white;
+      font-size: 13px;
+    }
+    .topnav { display: flex; gap: 24px; font-size: 14px; color: var(--muted); }
+    .topnav a { text-decoration: none; }
+    .topnav a:hover { color: var(--teal); }
+    .hero { padding: 74px 0 64px; position: relative; overflow: hidden; }
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 310px;
+      height: 310px;
+      left: -74px;
+      top: 24px;
+      border-radius: 50%;
+      border: 1px solid #bbd8cf;
+      box-shadow: 0 0 0 25px rgba(8,126,120,.035), 0 0 0 50px rgba(8,126,120,.025), 0 0 0 75px rgba(8,126,120,.02);
+      pointer-events: none;
+    }
+    .eyebrow, .kicker, .source-label {
+      font-family: "DM Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      font-size: 11px;
+    }
+    .eyebrow { color: var(--teal); display: flex; align-items: center; gap: 9px; }
+    .eyebrow::before { content: ""; width: 20px; height: 2px; background: var(--coral); }
+    h1 {
+      position: relative;
+      max-width: 820px;
+      margin: 18px 0 22px;
+      font-size: clamp(52px, 8vw, 96px);
+      line-height: .98;
+      font-weight: 800;
+    }
+    h1 em { color: var(--teal); font-style: normal; }
+    .hero-copy { position: relative; max-width: 730px; margin: 0; color: #435959; font-size: 19px; }
+    .hero-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin-top: 28px; }
+    .meta-pill { border: 1px solid #c6d8d1; border-radius: 99px; padding: 5px 12px; font-size: 13px; background: rgba(255,255,255,.55); }
+    .hero-note { display: flex; gap: 10px; align-items: flex-start; max-width: 710px; margin-top: 33px; padding: 13px 16px; background: var(--yellow-light); border-inline-start: 3px solid var(--yellow); font-size: 14px; }
+    .hero-note strong { white-space: nowrap; }
+    .signal-strip { background: var(--ink); color: #f3f9f6; }
+    .signal-inner { min-height: 102px; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; gap: 22px; }
+    .signal { display: flex; align-items: center; gap: 12px; }
+    .signal-icon { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid #496260; border-radius: 50%; color: #a9e1d0; font-family: "DM Mono", monospace; font-size: 13px; }
+    .signal b { display: block; font-size: 15px; }
+    .signal small { display: block; color: #b4c7c1; font-size: 12px; }
+    section { scroll-margin-top: 26px; }
+    .section { padding: 78px 0; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 28px; margin-bottom: 30px; }
+    .section-head h2 { margin: 6px 0 0; font-size: 35px; line-height: 1.12; }
+    .section-head p { max-width: 470px; margin: 0; color: var(--muted); font-size: 15px; }
+    .kicker { color: var(--coral); }
+    .concept-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .concept { padding: 22px 19px 25px 18px; border-inline-start: 1px solid var(--line); }
+    .concept:first-child { border-inline-start: 0; }
+    .concept-num { font: 12px "DM Mono", monospace; color: var(--teal); }
+    .concept h3 { margin: 10px 0 6px; font-size: 18px; }
+    .concept p { margin: 0; font-size: 14px; color: var(--muted); }
+    .principles { margin-top: 32px; padding: 24px 28px 26px; background: var(--teal-light); border-radius: var(--radius); }
+    .principles-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+    .principles h3 { margin: 0; font-size: 19px; }
+    .principles p { margin: 0; color: #44635e; font-size: 13px; }
+    .principle-list { display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; margin: 18px 0 0; padding: 0; list-style: none; }
+    .principle-list li { padding: 10px 10px 12px; background: rgba(255,255,255,.7); border-radius: 5px; font-size: 12px; line-height: 1.4; }
+    .principle-list b { display: block; color: var(--teal); margin-bottom: 4px; font-family: "DM Mono", monospace; }
+    .cases-section { background: #eaf1ee; padding: 78px 0 86px; }
+    .case-tools { display: flex; justify-content: space-between; gap: 16px; margin: 26px 0 16px; }
+    .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+    .filter-btn {
+      appearance: none;
+      border: 1px solid #bfd0ca;
+      color: var(--ink);
+      background: transparent;
+      border-radius: 99px;
+      padding: 8px 14px;
+      font: 500 13px "Heebo", sans-serif;
+      cursor: pointer;
+    }
+    .filter-btn:hover, .filter-btn[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: white; }
+    .search-wrap { position: relative; width: min(280px, 100%); }
+    .search-wrap input { width: 100%; height: 40px; border: 1px solid #bfd0ca; background: white; border-radius: 5px; padding: 8px 13px; font: 14px "Heebo", sans-serif; }
+    .results-count { color: var(--muted); font-size: 13px; margin: 0 0 15px; }
+    .case-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .case-card { min-width: 0; background: var(--white); border: 1px solid #dce6e1; border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+    .case-card[hidden] { display: none; }
+    .case-visual { height: 205px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .case-visual img { width: 100%; height: 100%; object-fit: cover; }
+    .case-visual.logo-visual { background: #f1f7fb; }
+    .case-visual.logo-visual img { width: min(72%, 310px); height: auto; max-height: 100px; object-fit: contain; }
+    .visual-label { position: absolute; right: 16px; top: 14px; z-index: 1; padding: 4px 9px; background: rgba(255,255,255,.9); border-radius: 3px; color: var(--ink); font: 11px "DM Mono", monospace; }
+    .case-visual.score-visual { background: #253c3a; gap: 5px; padding: 28px; }
+    .score-line { display: flex; flex-direction: column; gap: 13px; width: 100%; transform: rotate(-4deg); }
+    .score-row { display: flex; align-items: center; gap: 12px; height: 27px; border-bottom: 1px solid rgba(255,255,255,.26); }
+    .score-row span { display: block; width: var(--w); height: 9px; background: var(--c); border-radius: 99px; }
+    .score-row i { width: 11px; height: 11px; background: #f6efdc; border-radius: 50%; }
+    .case-visual.color-visual { gap: 16px; background: var(--yellow-light); }
+    .color-shape { width: 55px; height: 55px; display: grid; place-items: center; color: var(--ink); font-size: 22px; font-weight: 700; }
+    .color-shape.circle { border-radius: 50%; background: #087e78; color: white; }
+    .color-shape.square { background: #ed654e; color: white; }
+    .color-shape.triangle { clip-path: polygon(50% 0, 100% 100%, 0 100%); background: #4778ba; color: white; padding-top: 19px; }
+    .case-visual.call-visual { background: #dcefed; }
+    .phone-ui { position: relative; width: 135px; height: 178px; border: 7px solid #173b39; border-radius: 24px; background: white; box-shadow: 14px 12px 0 rgba(23,59,57,.12); display: grid; place-items: center; }
+    .phone-ui::before { content: ""; position: absolute; top: 6px; width: 37px; height: 6px; background: #173b39; border-radius: 9px; }
+    .person-dot { width: 46px; height: 46px; margin-bottom: 22px; background: var(--coral); border-radius: 50%; box-shadow: 0 37px 0 -8px #173b39; }
+    .call-status { position: absolute; bottom: 14px; font: 10px "DM Mono", monospace; color: var(--muted); }
+    .case-body { padding: 20px 22px 21px; display: flex; flex-direction: column; height: 100%; }
+    .case-meta { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; margin-bottom: 8px; }
+    .case-meta span { font-size: 11px; color: var(--muted); }
+    .case-meta .type { padding: 3px 7px; border-radius: 3px; color: var(--teal); background: var(--teal-light); }
+    .case-meta .sense { padding: 3px 7px; border-radius: 3px; color: #914431; background: var(--coral-light); }
+    .case-card h3 { margin: 0 0 8px; font-size: 23px; line-height: 1.25; }
+    .case-card h3 span { color: var(--muted); font-size: 14px; font-weight: 500; }
+    .case-intro { margin: 0 0 14px; color: #4f6462; font-size: 14px; }
+    .case-facts { display: grid; gap: 10px; border-top: 1px solid #e5ece8; padding-top: 12px; }
+    .fact { display: grid; grid-template-columns: 91px 1fr; gap: 9px; font-size: 13px; line-height: 1.55; }
+    .fact b { color: var(--teal); }
+    .takeaway { background: #f3f7f5; border-inline-start: 2px solid var(--yellow); margin-top: 15px; padding: 9px 11px; color: #455a57; font-size: 13px; }
+    .case-links { display: flex; flex-wrap: wrap; gap: 14px; margin-top: auto; padding-top: 16px; }
+    .case-links a { color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 3px; font-size: 13px; font-weight: 600; }
+    .case-links a:hover { color: #045a56; }
+    .empty-state { display: none; grid-column: 1 / -1; padding: 30px; text-align: center; color: var(--muted); }
+    .empty-state.show { display: block; }
+    .reading-section { padding: 76px 0; }
+    .reading-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 52px; align-items: start; }
+    .reading-intro h2 { margin: 6px 0 14px; font-size: 35px; line-height: 1.15; }
+    .reading-intro p { color: var(--muted); margin: 0; }
+    .questions { counter-reset: question; display: grid; }
+    .question { display: grid; grid-template-columns: 36px 1fr; gap: 14px; padding: 15px 0; border-top: 1px solid var(--line); }
+    .question-num { width: 30px; height: 30px; display: grid; place-items: center; color: var(--coral); border: 1px solid #f2b9ac; border-radius: 50%; font: 12px "DM Mono", monospace; }
+    .question h3 { margin: 0 0 3px; font-size: 17px; }
+    .question p { margin: 0; color: var(--muted); font-size: 14px; }
+    .sources-section { background: var(--ink); color: white; padding: 55px 0 45px; }
+    .sources-head { display: flex; justify-content: space-between; gap: 24px; align-items: baseline; margin-bottom: 20px; }
+    .sources-head h2 { font-size: 24px; margin: 0; }
+    .sources-head p { color: #b9cbc5; margin: 0; font-size: 13px; }
+    .sources-list { display: grid; grid-template-columns: repeat(3,1fr); gap: 0 24px; margin: 0; padding: 0; list-style: none; }
+    .sources-list li { border-top: 1px solid #3e5955; padding: 10px 0; font-size: 13px; }
+    .sources-list a { color: #b4ead9; text-underline-offset: 3px; }
+    .sources-list span { display: block; color: #a9beba; font-size: 11px; }
+    footer { padding: 17px 0 22px; background: #102120; color: #b4c7c1; font-size: 12px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+    .no-js { display: block; }
+    @media (max-width: 800px) {
+      .signal-inner { grid-template-columns: repeat(2,1fr); padding-block: 20px; }
+      .concept-grid { grid-template-columns: repeat(2,1fr); }
+      .concept:nth-child(3) { border-inline-start: 0; }
+      .principle-list { grid-template-columns: repeat(4,1fr); }
+      .reading-grid { grid-template-columns: 1fr; gap: 24px; }
+      .sources-list { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 600px) {
+      .wrap { width: min(100% - 32px, var(--page)); }
+      .topbar { min-height: 58px; }
+      .topnav { gap: 12px; font-size: 12px; }
+      .topnav a:last-child { display: none; }
+      .hero { padding: 55px 0 45px; }
+      .hero::before { width: 185px; height: 185px; top: 10px; left: -65px; }
+      h1 { font-size: 56px; }
+      .hero-copy { font-size: 17px; }
+      .hero-note { display: block; }
+      .hero-note strong { display: block; margin-bottom: 4px; }
+      .signal-inner { gap: 14px 8px; }
+      .signal { gap: 8px; }
+      .signal-icon { width: 29px; height: 29px; flex: 0 0 auto; }
+      .signal b { font-size: 13px; }
+      .signal small { font-size: 11px; }
+      .section, .cases-section, .reading-section { padding: 54px 0; }
+      .section-head { display: block; }
+      .section-head h2, .reading-intro h2 { font-size: 30px; }
+      .section-head p { margin-top: 12px; }
+      .concept { padding: 16px 10px 18px 12px; }
+      .concept h3 { font-size: 16px; }
+      .concept p { font-size: 13px; }
+      .principles { padding: 19px 15px; }
+      .principles-head { display: block; }
+      .principles-head p { margin-top: 6px; }
+      .principle-list { grid-template-columns: repeat(2,1fr); }
+      .case-tools { display: block; }
+      .filters { margin-bottom: 12px; }
+      .search-wrap { width: 100%; }
+      .case-grid { grid-template-columns: 1fr; }
+      .case-visual { height: 190px; }
+      .case-body { padding: 18px 17px; }
+      .fact { grid-template-columns: 78px 1fr; }
+      .sources-head { display: block; }
+      .sources-head p { margin-top: 7px; }
+      .sources-list { grid-template-columns: 1fr; }
+      .footer-inner { display: block; }
+      .footer-inner span { display: block; margin-top: 6px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap topbar">
+    <a class="wordmark" href="#top" aria-label="חוש חסר, מעבר לעמוד הפתיחה"><span class="mark" aria-hidden="true">ח</span><span>חוש חסר</span></a>
+    <nav class="topnav" aria-label="ניווט ראשי">
+      <a href="#terms">מושגים</a>
+      <a href="#cases">מקרי בוחן</a>
+      <a href="#questions">כיווני חשיבה</a>
+      <a href="#sources">מקורות</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="wrap hero" aria-labelledby="main-title">
+      <div class="eyebrow">מחקר בעיצוב מכליל · אקדמיה ותעשייה</div>
+      <h1 id="main-title">חוש <em>חסר</em><br>או ערוץ אחר?</h1>
+      <p class="hero-copy">מה משתנה כשמידע חשוב מגיע דרך חוש שאינו זמין? שישה פרויקטים בעיצוב מוצר, עיצוב תעשייתי ותקשורת חזותית בודקים איך מתרגמים מידע בין ראייה, שמיעה ומגע, ואיך תכנון נגיש יכול לפתוח יותר מאפשרות אחת.</p>
+      <div class="hero-meta" aria-label="נושאי המחקר">
+        <span class="meta-pill">עיצוב אוניברסלי</span><span class="meta-pill">עיצוב מכליל</span><span class="meta-pill">עיצוב רב־חושי</span><span class="meta-pill">חוויית משתמש</span>
+      </div>
+      <aside class="hero-note"><strong>הערת מסגור</strong><span>״חוש חסר״ הוא כאן שם לשאלת תכנון, לא תיאור של אדם כ״חסר״. לקות, שונות חושית, סביבה רועשת או מידע שמוצג בערוץ יחיד יוצרים מצבים שונים, ולא פתרון אחד שמתאים לכולם.</span></aside>
+    </section>
+
+    <div class="signal-strip" aria-label="ערוצי חישה שנחקרים">
+      <div class="wrap signal-inner">
+        <div class="signal"><span class="signal-icon" aria-hidden="true">01</span><span><b>ראייה</b><small>תיאור קולי · מגע</small></span></div>
+        <div class="signal"><span class="signal-icon" aria-hidden="true">02</span><span><b>שמיעה</b><small>רטט · שפה חזותית</small></span></div>
+        <div class="signal"><span class="signal-icon" aria-hidden="true">03</span><span><b>צבע</b><small>סמל · טקסט · צורה</small></span></div>
+        <div class="signal"><span class="signal-icon" aria-hidden="true">04</span><span><b>מגע</b><small>נקודות · מרקם · תבליט</small></span></div>
+      </div>
+    </div>
+
+    <section class="wrap section" id="terms" aria-labelledby="terms-title">
+      <div class="section-head">
+        <div><div class="kicker">01 / מסגרת מושגית</div><h2 id="terms-title">אותה בעיה, כמה עדשות</h2></div>
+        <p>לא כל פרויקט נולד כ״עיצוב אוניברסלי״. המושגים עוזרים לזהות מה הוא משפר, למי, ובאילו תנאים עדיין נדרשת התאמה.</p>
+      </div>
+      <div class="concept-grid">
+        <article class="concept"><span class="concept-num">A / 01</span><h3>עיצוב אוניברסלי</h3><p>תכנון מוצרים, סביבות ותקשורת כך שיהיו שמישים לקשת רחבה ככל האפשר של אנשים, בלי להזדקק להתאמה ייעודית בכל מקרה.</p></article>
+        <article class="concept"><span class="concept-num">A / 02</span><h3>עיצוב מכליל</h3><p>תהליך שמתחיל במגוון האנושי ומשתף אנשים שנוטים להישאר מחוץ ל״משתמש הממוצע״. נגישות נבחנת לאורך הדרך, לא רק בסוף.</p></article>
+        <article class="concept"><span class="concept-num">A / 03</span><h3>החלפה חושית</h3><p>תרגום של מידע מערוץ אחד לאחר: תמונה לדיבור, גרף למשטח מישושי, או מוזיקה לתבנית רטט. התרגום אינו תמיד מלא.</p></article>
+        <article class="concept"><span class="concept-num">A / 04</span><h3>מידע רב־ערוצי</h3><p>הצגת מידע חיוני ביותר מאופן אחד, למשל צבע יחד עם צורה וטקסט, כדי לאפשר בחירה לפי יכולת, הקשר והעדפה.</p></article>
+      </div>
+      <div class="principles">
+        <div class="principles-head"><h3>עקרונות אוניברסליים שרלוונטיים במיוחד לחושים</h3><p>על בסיס שבעת העקרונות של Center for Universal Design, NC State</p></div>
+        <ol class="principle-list">
+          <li><b>01</b>שימוש שוויוני</li><li><b>02</b>גמישות בשימוש</li><li><b>03</b>פשוט ואינטואיטיבי</li><li><b>04</b>מידע מורגש וברור</li><li><b>05</b>סובלנות לטעויות</li><li><b>06</b>מאמץ פיזי נמוך</li><li><b>07</b>מרחב וגודל מתאימים</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="cases-section" id="cases" aria-labelledby="cases-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="kicker">02 / מקרים ופתרונות</div><h2 id="cases-title">משנים את ערוץ הקלט</h2></div>
+          <p>בכל מקרה: סיטואציה חושית, בחירת תכנון, ומה אפשר ללמוד ממנה. המידע מבוסס על תיאורי הפרויקטים והמקורות המקושרים.</p>
+        </div>
+        <div class="case-tools">
+          <div class="filters" role="group" aria-label="סינון לפי חוש">
+            <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">הכול</button>
+            <button class="filter-btn" type="button" data-filter="vision" aria-pressed="false">ראייה</button>
+            <button class="filter-btn" type="button" data-filter="hearing" aria-pressed="false">שמיעה</button>
+            <button class="filter-btn" type="button" data-filter="touch" aria-pressed="false">מגע</button>
+            <button class="filter-btn" type="button" data-filter="color" aria-pressed="false">הבחנת צבע</button>
+          </div>
+          <label class="search-wrap"><span class="sr-only">חיפוש בפרויקטים</span><input id="case-search" type="search" placeholder="חיפוש פרויקט או מושג" autocomplete="off"></label>
+        </div>
+        <p class="results-count" id="results-count" aria-live="polite">6 פרויקטים</p>
+        <div class="case-grid" id="case-grid">
+          <article class="case-card" data-senses="vision" data-search="seeing ai ראייה עיוורון לקות ראייה בינה מלאכותית דיבור מיקרוסופט">
+            <div class="case-visual logo-visual"><span class="visual-label">ממשק דיגיטלי · ראייה → קול</span><img src="https://www.seeingai.com/logo.png" alt="סמל Seeing AI" loading="lazy"></div>
+            <div class="case-body">
+              <div class="case-meta"><span class="type">תעשייה · Microsoft</span><span class="sense">ראייה</span></div>
+              <h3>Seeing AI <span>· עוזר חזותי קולי</span></h3>
+              <p class="case-intro">אפליקציה שמספרת בקול על העולם שמול המצלמה, עבור אנשים עיוורים ואנשים עם ראייה ירודה.</p>
+              <div class="case-facts">
+                <div class="fact"><b>הסיטואציה</b><span>קריאת טקסט, זיהוי מוצר או הבנת תמונה דורשים מידע חזותי.</span></div>
+                <div class="fact"><b>הגישה</b><span>ערוץ מצלמה הופך לטקסט מדובר: קריאה, תיאור תמונה וזיהוי פריטים. הפרויקט מתפתח יחד עם קהילת העיוורים ולקויי הראייה.</span></div>
+                <div class="fact"><b>למה זה מעניין</b><span>במקום ללמד את המשתמש להפעיל ממשק חזותי, הממשק מתאר את התוכן בקול ומאפשר משימות שונות בתוך כלי אחד.</span></div>
+              </div>
+              <div class="takeaway"><b>שאלת תכנון:</b> איך מסמנים למשתמש מה זוהה בוודאות, ומהו ניחוש של מערכת?</div>
+              <div class="case-links"><a href="https://www.seeingai.com/" target="_blank" rel="noreferrer">אתר הפרויקט ↗</a></div>
+            </div>
+          </article>
+
+          <article class="case-card" data-senses="vision touch" data-search="dot pad ראייה ברייל מישוש גרפיקה תצוגה נקודות">
+            <div class="case-visual"><span class="visual-label">מוצר תעשייתי · תמונה → מגע</span><img src="https://www.dotincorp.com/image/about_dotpad.png" alt="תצוגת Dot Pad, משטח ברייל וגרפיקה מישושית" loading="lazy"></div>
+            <div class="case-body">
+              <div class="case-meta"><span class="type">תעשייה · Dot Inc.</span><span class="sense">ראייה + מגע</span></div>
+              <h3>Dot Pad <span>· מסך מישושי דינמי</span></h3>
+              <p class="case-intro">תצוגה אלקטרונית שבה נקודות מתרוממות כדי להציג ברייל וגם גרפיקה מישושית.</p>
+              <div class="case-facts">
+                <div class="fact"><b>הסיטואציה</b><span>תרשימים, תמונות וממשקי מחשב נשארים בלתי נגישים אם הם מוצגים רק על מסך חזותי.</span></div>
+                <div class="fact"><b>הגישה</b><span>המערכת ממירה תוכן דיגיטלי לצורות מישושיות; אפשר לחבר אותה לכלי נגישות כמו NVDA ו־VoiceOver.</span></div>
+                <div class="fact"><b>למה זה מעניין</b><span>העיצוב מחבר טקסט וגרפיקה באותו משטח, ומאפשר לחקור מידע ולא רק לקבל תיאור קולי שלו.</span></div>
+              </div>
+              <div class="takeaway"><b>שאלת תכנון:</b> איך מפשטים תמונה מורכבת כך שתהיה מובנת באצבעות וברזולוציה מוגבלת?</div>
+              <div class="case-links"><a href="https://www.dotincorp.com/en/product/pad" target="_blank" rel="noreferrer">תיאור המוצר ↗</a><a href="https://www.dotincorp.com/en" target="_blank" rel="noreferrer">אתר Dot ↗</a></div>
+            </div>
+          </article>
+
+          <article class="case-card" data-senses="hearing touch" data-search="music not impossible soundshirt שמיעה חירשות רטט מוזיקה לביש">
+            <div class="case-visual"><span class="visual-label">לביש · מוזיקה → רטט</span><img src="https://cdn.prod.website-files.com/69e94906bcffb15c91490d0c/69f5259dc1478e6c71aa5c05_IMAGE0035_MUSIC_NOT_IMPOSSIBLE_SXSW_LIFE_IS_BEAUTIFUL_IMAGE_032916-p-500.jpg" alt="אפודי Music: Not Impossible בהופעה חיה" loading="lazy"></div>
+            <div class="case-body">
+              <div class="case-meta"><span class="type">תעשייה · Not Impossible Labs</span><span class="sense">שמיעה + מגע</span></div>
+              <h3>Music: Not Impossible <span>· מוזיקה על הגוף</span></h3>
+              <p class="case-intro">מערכת לבישה שמתרגמת מוזיקה חיה ל־24 נקודות רטט לאורך הגוף, עבור קהל חירש וכבד שמיעה.</p>
+              <div class="case-facts">
+                <div class="fact"><b>הסיטואציה</b><span>בהופעה, המוזיקה נחווית לרוב דרך שמיעה, והקהל גם עלול להיות מנותק מחוויה גופנית וחברתית משותפת.</span></div>
+                <div class="fact"><b>הגישה</b><span>מערכת אלחוטית מתרגמת את המוזיקה לדפוסי רטט מקומיים בגוף, כדי להוסיף שכבת מגע לחוויה.</span></div>
+                <div class="fact"><b>למה זה מעניין</b><span>הפתרון לא רק מעביר ״אות״ אלא מתייחס למוזיקה כחוויה פיזית, רגשית וחברתית.</span></div>
+              </div>
+              <div class="takeaway"><b>שאלת תכנון:</b> האם הרטט מעביר קצב ועוצמה בלבד, או גם מאפשר פרשנות אישית למוזיקה?</div>
+              <div class="case-links"><a href="https://www.notimpossible.com/projects/music-not-impossible" target="_blank" rel="noreferrer">תיאור הפרויקט ↗</a></div>
+            </div>
+          </article>
+
+          <article class="case-card" data-senses="vision touch" data-search="graphic scores פרטיטורה גרפית עיוורים מחקר אקדמיה מישוש מוזיקה NIME">
+            <div class="case-visual score-visual" role="img" aria-label="הדמיה מופשטת של פרטיטורה מישושית, קווים ונקודות בתבליט"><span class="visual-label">מחקר · סימון → מישוש</span><div class="score-line" aria-hidden="true"><div class="score-row"><i></i><span style="--w:55%;--c:#a9e1d0"></span><i></i></div><div class="score-row"><span style="--w:33%;--c:#ed654e"></span><i></i><span style="--w:25%;--c:#e8b934"></span></div><div class="score-row"><i></i><span style="--w:70%;--c:#a9e1d0"></span><i></i></div><div class="score-row"><span style="--w:42%;--c:#e8b934"></span><i></i><span style="--w:20%;--c:#ed654e"></span></div></div></div>
+            <div class="case-body">
+              <div class="case-meta"><span class="type">אקדמיה · NIME 2024</span><span class="sense">ראייה + מגע</span></div>
+              <h3>פרטיטורות גרפיות נגישות <span>· מחקר ועיצוב</span></h3>
+              <p class="case-intro">מחקר על תמיכות מישושיות לאנשים עיוורים, בהקשר של נגישות לפרטיטורות גרפיות ומוזיקה.</p>
+              <div class="case-facts">
+                <div class="fact"><b>הסיטואציה</b><span>פרטיטורה גרפית משתמשת בסימנים חזותיים כדי לייצג מוזיקה, ולכן אינה נגישה למי שאינו קורא את הסימנים דרך ראייה.</span></div>
+                <div class="fact"><b>הגישה</b><span>המאמר מתעד סדנת מוזיקה על הנגשת פרטיטורות גרפיות לאנשים עיוורים, שהתקיימה בברשה, איטליה, ותומך בה כנקודת מוצא לבחינת תרגום מישושי.</span></div>
+                <div class="fact"><b>למה זה מעניין</b><span>זהו מעבר מהנגשת ״מידע על מוזיקה״ לשאלה מי יכול לקרוא, לפרש וליצור את הסימנים עצמם.</span></div>
+              </div>
+              <div class="takeaway"><b>כיוון למחקר:</b> לבדוק עם משתמשים אילו איכויות מהסימון נשמרות במעבר לתבליט, ואילו נעלמות.</div>
+              <div class="case-links"><a href="https://nime.org/proceedings/2024/nime2024_77.pdf" target="_blank" rel="noreferrer">מאמר הכנס (PDF) ↗</a></div>
+            </div>
+          </article>
+
+          <article class="case-card" data-senses="color vision" data-search="coloradd color add עיוורון צבעים הבחנת צבע תקשורת חזותית סמלים">
+            <div class="case-visual color-visual" role="img" aria-label="שלושה סמלים שונים בצורתם מייצגים ערוץ נוסף לזיהוי צבע"><span class="visual-label">תקשורת חזותית · צבע → סמל</span><span class="color-shape circle" aria-hidden="true">●</span><span class="color-shape square" aria-hidden="true">■</span><span class="color-shape triangle" aria-hidden="true">▲</span></div>
+            <div class="case-body">
+              <div class="case-meta"><span class="type">מערכת גרפית · ColorADD</span><span class="sense">הבחנת צבע</span></div>
+              <h3>ColorADD <span>· קוד צבעים חזותי</span></h3>
+              <p class="case-intro">מערכת סמלים שנועדה לעזור לאנשים עם עיוורון צבעים לזהות ולהבחין בין צבעים.</p>
+              <div class="case-facts">
+                <div class="fact"><b>הסיטואציה</b><span>כאשר צבע הוא הסימן היחיד, למשל במיון, בחירת מוצר או קבלת מידע, חלק מהמשתמשים לא יכולים להסתמך עליו.</span></div>
+                <div class="fact"><b>הגישה</b><span>מוסיפים לשפה הצבעונית קוד גרפי נוסף, כך שצבע יכול לקבל סימון שאינו תלוי רק בגוון.</span></div>
+                <div class="fact"><b>למה זה מעניין</b><span>זהו פתרון בתקשורת חזותית ולא רק במוצר: שינוי קטן במערכת הסימנים עשוי לשפר מידע במגוון נקודות מגע.</span></div>
+              </div>
+              <div class="takeaway"><b>שאלת תכנון:</b> האם הסמל מופיע בכל מקום שבו הצבע חשוב, והאם הוא קריא גם בגודל קטן?</div>
+              <div class="case-links"><a href="https://www.coloradd.net/" target="_blank" rel="noreferrer">אתר ColorADD ↗</a></div>
+            </div>
+          </article>
+
+          <article class="case-card" data-senses="vision hearing" data-search="be my eyes ראייה עיוורים שיחת וידאו מתנדבים סיוע אנושי ai">
+            <div class="case-visual call-visual" role="img" aria-label="הדמיית שיחת וידאו דרך טלפון"><span class="visual-label">שירות · מצלמה → אדם</span><div class="phone-ui" aria-hidden="true"><span class="person-dot"></span><span class="call-status">LIVE SUPPORT</span></div></div>
+            <div class="case-body">
+              <div class="case-meta"><span class="type">שירות דיגיטלי · Be My Eyes</span><span class="sense">ראייה + קול</span></div>
+              <h3>Be My Eyes <span>· סיוע חזותי מרחוק</span></h3>
+              <p class="case-intro">שירות שמחבר אנשים עיוורים או עם ראייה ירודה למתנדבים ולכלי AI באמצעות וידאו חי.</p>
+              <div class="case-facts">
+                <div class="fact"><b>הסיטואציה</b><span>משימה יומיומית דורשת מידע חזותי נקודתי, כמו זיהוי חפץ או קריאת תווית.</span></div>
+                <div class="fact"><b>הגישה</b><span>המשתמש מבקש עזרה בזמן אמת; אדם אחר או כלי AI מתארים את מה שהמצלמה רואה. המשתמש בוחר מתי ומה לשתף.</span></div>
+                <div class="fact"><b>למה זה מעניין</b><span>הפתרון משלב טכנולוגיה ותמיכה אנושית, במקום להניח שכל מצב מתאים לאוטומציה.</span></div>
+              </div>
+              <div class="takeaway"><b>שאלת תכנון:</b> איך שומרים על פרטיות והסכמה, ומה עושים כשאין רשת או כשהמשתמש זקוק לעזרה מיידית?</div>
+              <div class="case-links"><a href="https://www.bemyeyes.com/" target="_blank" rel="noreferrer">אתר השירות ↗</a></div>
+            </div>
+          </article>
+          <p class="empty-state" id="empty-state">לא נמצאו פרויקטים מתאימים. אפשר לנסות מילה או מסנן אחר.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap reading-section" id="questions" aria-labelledby="questions-title">
+      <div class="reading-grid">
+        <div class="reading-intro"><div class="kicker">03 / קריאה ביקורתית</div><h2 id="questions-title">לא רק ״איך מפצים?״</h2><p>הפתרונות שונים זה מזה: אחד מתאר מידע, אחר מחליף ערוץ, ושלישי מוסיף לו שכבה. ההבדל הזה משנה את חוויית העצמאות, את העלות ואת מידת השליטה.</p></div>
+        <div class="questions">
+          <article class="question"><span class="question-num">01</span><div><h3>מי הגדיר את הבעיה?</h3><p>האם אנשים עם שונות חושית היו שותפים למחקר, לאבות־הטיפוס ולהערכה, או שהפתרון נבנה על הנחות של המעצב?</p></div></article>
+          <article class="question"><span class="question-num">02</span><div><h3>מה בדיוק מתורגם?</h3><p>מידע עובדתי, כיוון, קצב, מרקם, רגש? כל ערוץ חדש משמר חלק מהחוויה ומשנה חלק אחר.</p></div></article>
+          <article class="question"><span class="question-num">03</span><div><h3>מה קורה כשהתנאים משתנים?</h3><p>רעש, תאורה, כפפות, עומס קוגניטיבי, סוללה או חיבור לרשת עלולים להפוך פתרון נגיש לבלתי שמיש.</p></div></article>
+          <article class="question"><span class="question-num">04</span><div><h3>האם יש יותר מדרך אחת?</h3><p>קול, מגע, טקסט, סימן חזותי ובקרה פשוטה יכולים לפעול יחד. בחירה וגיבוי מפחיתים תלות בערוץ יחיד.</p></div></article>
+          <article class="question"><span class="question-num">05</span><div><h3>למי הפתרון נשאר מחוץ להישג יד?</h3><p>בדקו מחיר, שפה, מיומנות דיגיטלית, זמינות, פרטיות ותאימות לעזרים קיימים, לצד הצלחת האבטיפוס.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sources-section" id="sources" aria-labelledby="sources-title">
+      <div class="wrap">
+        <div class="sources-head"><h2 id="sources-title">מקורות להמשך</h2><p>תיאורי פרויקט רשמיים ועקרונות עיצוב ממקור אקדמי.</p></div>
+        <ul class="sources-list">
+          <li><a href="https://design.ncsu.edu/research/center-for-universal-design/" target="_blank" rel="noreferrer">NC State · The Principles of Universal Design ↗</a><span>הגדרה ושבעת העקרונות</span></li>
+          <li><a href="https://www.seeingai.com/" target="_blank" rel="noreferrer">Microsoft · Seeing AI ↗</a><span>עוזר חזותי קולי, פיתוח עם קהילת עיוורים ולקויי ראייה</span></li>
+          <li><a href="https://www.dotincorp.com/en/product/pad" target="_blank" rel="noreferrer">Dot Inc. · Dot Pad ↗</a><span>תצוגת ברייל וגרפיקה מישושית דינמית</span></li>
+          <li><a href="https://www.notimpossible.com/projects/music-not-impossible" target="_blank" rel="noreferrer">Not Impossible Labs · Music: Not Impossible ↗</a><span>מערכת לבישה לתרגום מוזיקה לרטט</span></li>
+          <li><a href="https://nime.org/proceedings/2024/nime2024_77.pdf" target="_blank" rel="noreferrer">NIME 2024 · Design and Evaluation of Tactile Supports for Blind People ↗</a><span>מאמר על תמיכות מישושיות וסדנת הנגשת פרטיטורות גרפיות</span></li>
+          <li><a href="https://www.coloradd.net/" target="_blank" rel="noreferrer">ColorADD · The Color Identification System ↗</a><span>מערכת סימון לזיהוי צבעים</span></li>
+          <li><a href="https://www.bemyeyes.com/" target="_blank" rel="noreferrer">Be My Eyes · אתר השירות ↗</a><span>סיוע חי באמצעות וידאו, מתנדבים וכלי AI</span></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+  <footer><div class="wrap footer-inner"><b>חוש חסר / מחקר בעיצוב מכליל</b><span>מיפוי ראשוני ללמידה ולפיתוח שאלת פרויקט · מקורות חיצוניים עשויים להשתנות</span></div></footer>
+
+  <style>.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }</style>
+  <script>
+    const filterButtons = [...document.querySelectorAll(".filter-btn")];
+    const cards = [...document.querySelectorAll(".case-card")];
+    const searchInput = document.querySelector("#case-search");
+    const resultsCount = document.querySelector("#results-count");
+    const emptyState = document.querySelector("#empty-state");
+    let activeFilter = "all";
+
+    function updateCases() {
+      const query = searchInput.value.trim().toLocaleLowerCase("he");
+      let visible = 0;
+      for (const card of cards) {
+        const matchesFilter = activeFilter === "all" || card.dataset.senses.split(" ").includes(activeFilter);
+        const searchable = `${card.dataset.search} ${card.textContent}`.toLocaleLowerCase("he");
+        const matchesQuery = !query || searchable.includes(query);
+        card.hidden = !(matchesFilter && matchesQuery);
+        if (!card.hidden) visible += 1;
+      }
+      resultsCount.textContent = `${visible} ${visible === 1 ? "פרויקט" : "פרויקטים"}`;
+      emptyState.classList.toggle("show", visible === 0);
+    }
+
+    for (const button of filterButtons) {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+        for (const item of filterButtons) item.setAttribute("aria-pressed", String(item === button));
+        updateCases();
+      });
+    }
+    searchInput.addEventListener("input", updateCases);
+  </script>
+</body>
+</html>
